@@ -19,7 +19,7 @@ namespace Test
         [Fact]
         public void Simple()
         {
-            TestObject? thing = new TestObject
+            TestObject thing = new TestObject
             {
                 Integer = 42
             };
@@ -33,6 +33,24 @@ namespace Test
             Assert.Equal(thing, deserialized);
         }
 
+        [Fact]
+        public void Derived()
+        {
+            DerivedObject thing = new DerivedObject
+            {
+                Name = "Derived",
+                Integer = 42
+            };
+
+            var serialized = thing.ToBinaryStream(true);
+
+            serialized.Position = 0;
+
+            var deserialized = Binary.Deserialize(serialized) as DerivedObject;
+
+            Assert.NotNull(deserialized);
+            Assert.Equal(thing, deserialized);
+        }
 
     }
 }
