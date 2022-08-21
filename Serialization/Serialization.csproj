@@ -7,4 +7,10 @@
     <RootNamespace>SLD.Serialization</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Cryptography\" />
+    <Folder Include="Compression\" />
+    <Folder Include="Yaml\" />
+  </ItemGroup>
+
 </Project>
