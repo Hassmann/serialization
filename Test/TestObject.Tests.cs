@@ -1,10 +1,5 @@
 ﻿#pragma warning disable xUnit2000 // Constants and literals should be the expected argument
 #pragma warning disable xUnit2003 // Do not use equality check to test for null value
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Test
 {
@@ -78,10 +73,10 @@ namespace Test
                 Name = "Complex",
                 Integer = 42,
 
-                //Nothing = null,
+                Nothing = null,
                 Something = new DerivedObject { Name = "Something" },
-                //KnownNothing = null,
-                //KnownSomething = new DerivedObject { Name = "Known Derived" },
+                KnownNothing = null,
+                KnownSomething = new DerivedObject { Name = "Known Derived" },
             };
 
             ComplexObject a1 = Create();

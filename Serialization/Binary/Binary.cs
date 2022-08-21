@@ -8,7 +8,7 @@ namespace SLD.Serialization.Binary
     {
         #region Deserialization
 
-        private static Dictionary<Type, Func<BinaryReader, object>> _knownConstructors = new();
+        private static readonly Dictionary<Type, Func<BinaryReader, object>> _knownConstructors = new();
 
         public static object? Deserialize(Stream serialized)
             => Deserialize(serialized, Assembly.GetCallingAssembly()!);
@@ -45,7 +45,7 @@ namespace SLD.Serialization.Binary
 
                 var constructor = FindConstructor(type);
 
-                return constructor(reader); 
+                return constructor(reader);
             }
 
             return null;

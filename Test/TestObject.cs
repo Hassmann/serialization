@@ -2,7 +2,6 @@
 
 
 using SLD.Serialization.Binary;
-using System.Xml.Linq;
 
 
 namespace Test
@@ -26,11 +25,11 @@ namespace Test
             writer.Write(Integer);
         }
 
-        public bool Equals(TestObject? other) 
-            => other is not null 
+        public bool Equals(TestObject? other)
+            => other is not null
             && this.Integer == other.Integer;
 
-        public override bool Equals(object? obj) 
+        public override bool Equals(object? obj)
             => obj is TestObject test
             && Equals(test);
 
