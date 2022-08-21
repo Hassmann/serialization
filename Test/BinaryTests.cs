@@ -52,5 +52,31 @@ namespace Test
             Assert.Equal(thing, deserialized);
         }
 
+        [Fact]
+        public void Complex()
+        {
+            ComplexObject thing = new ComplexObject
+            {
+                Name = "Complex",
+                Integer = 42,
+
+                Nothing = null,
+                Something = new DerivedObject { Name = "Something" },
+                KnownNothing = null,
+                KnownSomething = new DerivedObject { Name = "Known Derived" },
+            };
+
+            var serialized = thing.ToBinaryStream(true);
+
+            serialized.Position = 0;
+
+            var deserialized = Binary.Deserialize(serialized) as ComplexObject;
+
+            Assert.NotNull(deserialized);
+            Assert.Equal(thing, deserialized);
+        }
+
+
+
     }
 }
