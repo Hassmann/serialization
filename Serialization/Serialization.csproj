@@ -5,6 +5,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>SLD.Serialization</RootNamespace>
+    <PackageId>SLD.Serialization</PackageId>
+    <Authors>Andreas Hassmann</Authors>
+    <Company>Schloss Lautereck Design</Company>
+    <Description>Simple serialization of object graphs</Description>
+    <PackageProjectUrl>https://github.com/Hassmann/serialization</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Hassmann/serialization</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
