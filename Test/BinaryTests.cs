@@ -1,3 +1,5 @@
+using SLD.Serialization.Binary;
+
 namespace Test
 {
     public class BinaryTests
@@ -17,9 +19,14 @@ namespace Test
         [Fact]
         public void Simple()
         {
-            TestObject? thing = new TestObject();
+            TestObject? thing = new TestObject
+            {
+                Integer = 42
+            };
 
             var serialized = thing.ToBinaryStream();
+
+            serialized.Position = 0;
 
             var deserialized = Binary.Deserialize<TestObject>(serialized);
 
