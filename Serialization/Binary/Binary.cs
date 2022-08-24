@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -8,24 +11,23 @@ namespace SLD.Serialization.Binary
     {
         #region Deserialization
 
-        private static readonly Dictionary<Type, Func<BinaryReader, object>> _knownConstructors = new();
+        private static readonly Dictionary<Type, Func<BinaryReader, object>> _knownConstructors = new Dictionary<Type, Func<BinaryReader, object>>();
 
-        public static object? Deserialize(Stream serialized)
-            => Deserialize(serialized, Assembly.GetCallingAssembly()!);
+        public static object Deserialize(Stream serialized)
+            => Deserialize(serialized, Assembly.GetCallingAssembly());
 
-        public static object? Deserialize(Stream serialized, Assembly typeAssembly)
+        public static object Deserialize(Stream serialized, Assembly typeAssembly)
         {
             if (serialized.Length == serialized.Position)
             {
                 return null;
             }
 
-            using var reader = new BinaryReader(serialized);
-
-            return Deserialize(typeAssembly, reader);
+            using (var reader = new BinaryReader(serialized))
+                return Deserialize(typeAssembly, reader);
         }
 
-        public static object? Deserialize(Assembly typeAssembly, BinaryReader reader)
+        public static object Deserialize(Assembly typeAssembly, BinaryReader reader)
         {
             var isNotNull = reader.ReadBoolean();
 
@@ -36,7 +38,7 @@ namespace SLD.Serialization.Binary
 
                 var type =
                     typeAssembly.GetType(typeName) ??
-                    Assembly.GetEntryAssembly()!.GetType(typeName);
+                    Assembly.GetEntryAssembly().GetType(typeName);
 
                 if (type is null)
                 {
@@ -51,19 +53,18 @@ namespace SLD.Serialization.Binary
             return null;
         }
 
-        public static T? Deserialize<T>(Stream serialized) where T : class
+        public static T Deserialize<T>(Stream serialized) where T : class
         {
             if (serialized.Length == serialized.Position)
             {
                 return default(T);
             }
 
-            using var reader = new BinaryReader(serialized);
-
-            return Deserialize<T>(reader);
+            using (var reader = new BinaryReader(serialized))
+                return Deserialize<T>(reader);
         }
 
-        public static T? Deserialize<T>(BinaryReader reader) where T : class
+        public static T Deserialize<T>(BinaryReader reader) where T : class
         {
             var isNotNull = reader.ReadBoolean();
 
@@ -102,19 +103,20 @@ namespace SLD.Serialization.Binary
 
         #region Serialization
 
-        public static Stream Serialize(IBinarySerializable? source, bool withTypeInfo = false)
+        public static Stream Serialize(IBinarySerializable source, bool withTypeInfo = false)
             => Serialize(source, withTypeInfo, new MemoryStream());
 
-        public static Stream Serialize(IBinarySerializable? serializable, bool withTypeInfo, Stream targetStream)
+        public static Stream Serialize(IBinarySerializable serializable, bool withTypeInfo, Stream targetStream)
         {
-            using var writer = new BinaryWriter(targetStream, Encoding.UTF8, true);
+            using (var writer = new BinaryWriter(targetStream, Encoding.UTF8, true))
+            {
+                Serialize(serializable, withTypeInfo, writer);
 
-            Serialize(serializable, withTypeInfo, writer);
-
-            return targetStream;
+                return targetStream;
+            }
         }
 
-        public static void Serialize(IBinarySerializable? serializable, bool withTypeInfo, BinaryWriter writer)
+        public static void Serialize(IBinarySerializable serializable, bool withTypeInfo, BinaryWriter writer)
         {
             if (serializable is null)
             {
@@ -126,7 +128,7 @@ namespace SLD.Serialization.Binary
 
                 if (withTypeInfo)
                 {
-                    writer.Write(serializable.GetType().FullName!);
+                    writer.Write(serializable.GetType().FullName);
                 }
 
                 serializable.Serialize(writer);

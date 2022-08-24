@@ -1,9 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+	  <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>SLD.Serialization</RootNamespace>
     <PackageId>SLD.Serialization</PackageId>
     <Authors>Andreas Hassmann</Authors>
@@ -13,12 +11,20 @@
     <RepositoryUrl>https://github.com/Hassmann/serialization</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>SLD-Software-Nuget.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Cryptography\" />
     <Folder Include="Compression\" />
     <Folder Include="Yaml\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="SLD-Software-Nuget.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
