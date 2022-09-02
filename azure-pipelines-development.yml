@@ -22,7 +22,4 @@ stages:
         displayName: 'Push NuGet to Feed'
         inputs:
           command: 'push'
-          packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.snupkg'
-          nuGetFeedType: 'internal'
           publishVstsFeed: '6ccb127a-73ca-413a-a232-1c9d8068ca27/3fa84e8f-496b-44a0-b0fe-5e6552a1bd76'
-    
