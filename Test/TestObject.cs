@@ -79,10 +79,10 @@ namespace Test
 
         public ComplexObject(BinaryReader reader) : base(reader)
         {
-            Nothing = (TestObject)reader.ReadGeneric();
-            Something = (TestObject)reader.ReadGeneric();
-            KnownNothing = reader.ReadDistinct<DerivedObject>();
-            KnownSomething = reader.ReadDistinct<DerivedObject>();
+            Nothing = (TestObject)reader.ReadDerived();
+            Something = (TestObject)reader.ReadDerived();
+            KnownNothing = reader.Read<DerivedObject>();
+            KnownSomething = reader.Read<DerivedObject>();
         }
 
         public TestObject? Nothing { get; set; }
@@ -108,10 +108,10 @@ namespace Test
         {
             base.Serialize(writer);
 
-            writer.WriteGeneric(Nothing);
-            writer.WriteGeneric(Something);
-            writer.WriteDistinct(KnownNothing);
-            writer.WriteDistinct(KnownSomething);
+            writer.WriteDerived(Nothing);
+            writer.WriteDerived(Something);
+            writer.Write(KnownNothing);
+            writer.Write(KnownSomething);
         }
     }
 

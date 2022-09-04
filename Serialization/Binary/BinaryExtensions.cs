@@ -9,17 +9,17 @@ namespace SLD.Serialization.Binary
             => Binary.Serialize(source, withTypeInfo);
 
         // Reader
-        public static object ReadGeneric(this BinaryReader reader)
+        public static object ReadDerived(this BinaryReader reader)
             => Binary.Deserialize(Assembly.GetCallingAssembly(), reader);
 
-        public static T ReadDistinct<T>(this BinaryReader reader) where T : class, IBinarySerializable
+        public static T Read<T>(this BinaryReader reader) where T : class, IBinarySerializable
             => Binary.Deserialize<T>(reader);
 
         // Writer
-        public static void WriteGeneric(this BinaryWriter writer, IBinarySerializable value)
+        public static void WriteDerived(this BinaryWriter writer, IBinarySerializable value)
             => Binary.Serialize(value, true, writer);
 
-        public static void WriteDistinct<T>(this BinaryWriter writer, T value) where T : IBinarySerializable
+        public static void Write<T>(this BinaryWriter writer, T value) where T : IBinarySerializable
             => Binary.Serialize(value, false, writer);
     }
 }
