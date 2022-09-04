@@ -12,6 +12,9 @@ namespace SLD.Serialization.Binary
         public static object ReadDerived(this BinaryReader reader)
             => Binary.Deserialize(Assembly.GetCallingAssembly(), reader);
 
+        public static object ReadGeneric(this BinaryReader reader)
+            => Binary.DeserializeGeneric(reader, Assembly.GetCallingAssembly());
+
         public static T Read<T>(this BinaryReader reader) where T : class, IBinarySerializable
             => Binary.Deserialize<T>(reader);
 
@@ -21,6 +24,9 @@ namespace SLD.Serialization.Binary
 
         public static void Write<T>(this BinaryWriter writer, T value) where T : IBinarySerializable
             => Binary.Serialize(value, false, writer);
+
+        public static void WriteGeneric(this BinaryWriter writer, object value)
+            => Binary.SerializeGeneric(value, writer);
 
         // Internals
         internal static void Write(this BinaryWriter writer, BinaryType type)
