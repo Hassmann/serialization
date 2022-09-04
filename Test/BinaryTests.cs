@@ -1,4 +1,4 @@
-using SLD.Serialization.Binary;
+using SLD.Serialization;
 
 namespace Test
 {

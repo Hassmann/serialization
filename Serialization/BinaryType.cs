@@ -1,4 +1,4 @@
-﻿namespace SLD.Serialization.Binary
+﻿namespace SLD.Serialization
 {
     internal enum BinaryType
     {

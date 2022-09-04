@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace SLD.Serialization.Binary
+namespace SLD.Serialization
 {
     public static class Binary
     {
@@ -46,7 +46,7 @@ namespace SLD.Serialization.Binary
         {
             if (serialized.Length == serialized.Position)
             {
-                return default(T);
+                return default;
             }
 
             using (var reader = new BinaryReader(serialized, Encoding.UTF8, true))
@@ -229,72 +229,72 @@ namespace SLD.Serialization.Binary
                 writer.Write(BinaryType.Serializable);
                 SerializeNonNull(instance, true, writer);
             }
-            else if (item is String @String)
+            else if (item is string @String)
             {
                 writer.Write(BinaryType.String);
                 writer.Write(@String);
             }
-            else if (item is Boolean @Boolean)
+            else if (item is bool @Boolean)
             {
                 writer.Write(BinaryType.Boolean);
                 writer.Write(@Boolean);
             }
-            else if (item is Byte @Byte)
+            else if (item is byte @Byte)
             {
                 writer.Write(BinaryType.Byte);
                 writer.Write(@Byte);
             }
-            else if (item is SByte @SByte)
+            else if (item is sbyte @SByte)
             {
                 writer.Write(BinaryType.SByte);
                 writer.Write(@SByte);
             }
-            else if (item is Char @Char)
+            else if (item is char @Char)
             {
                 writer.Write(BinaryType.Char);
                 writer.Write(@Char);
             }
-            else if (item is Decimal @Decimal)
+            else if (item is decimal @Decimal)
             {
                 writer.Write(BinaryType.Decimal);
                 writer.Write(@Decimal);
             }
-            else if (item is Double @Double)
+            else if (item is double @Double)
             {
                 writer.Write(BinaryType.Double);
                 writer.Write(@Double);
             }
-            else if (item is Single @Single)
+            else if (item is float @Single)
             {
                 writer.Write(BinaryType.Single);
                 writer.Write(@Single);
             }
-            else if (item is Int32 @Int32)
+            else if (item is int @Int32)
             {
                 writer.Write(BinaryType.Int32);
                 writer.Write(@Int32);
             }
-            else if (item is UInt32 @UInt32)
+            else if (item is uint @UInt32)
             {
                 writer.Write(BinaryType.UInt32);
                 writer.Write(@UInt32);
             }
-            else if (item is Int64 @Int64)
+            else if (item is long @Int64)
             {
                 writer.Write(BinaryType.Int64);
                 writer.Write(@Int64);
             }
-            else if (item is UInt64 @UInt64)
+            else if (item is ulong @UInt64)
             {
                 writer.Write(BinaryType.UInt64);
                 writer.Write(@UInt64);
             }
-            else if (item is Int16 @Int16)
+            else if (item is short @Int16)
             {
                 writer.Write(BinaryType.Int16);
                 writer.Write(@Int16);
             }
-            else if (item is UInt16 @UInt16)
+            else if (item is ushort @UInt16)
             {
                 writer.Write(BinaryType.UInt16);
                 writer.Write(@UInt16);

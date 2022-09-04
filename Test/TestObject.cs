@@ -1,7 +1,7 @@
 ﻿#pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
 
 
-using SLD.Serialization.Binary;
+using SLD.Serialization;
 
 
 namespace Test
