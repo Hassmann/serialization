@@ -3,7 +3,7 @@
   <PropertyGroup>
 	  <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>SLD.Serialization</RootNamespace>
-    <PackageId>SLD.Serialization</PackageId>
+    <PackageId>SLD.Serialization.Binary</PackageId>
     <Authors>Andreas Hassmann</Authors>
     <Company>Schloss Lautereck Design</Company>
     <Description>Simple serialization of object graphs</Description>
@@ -18,7 +18,6 @@
   <ItemGroup>
     <Folder Include="Cryptography\" />
     <Folder Include="Compression\" />
-    <Folder Include="Yaml\" />
   </ItemGroup>
 
   <ItemGroup>
