@@ -29,27 +29,35 @@ namespace SLD.Serialization.Binary
 
         public static object Deserialize(Assembly typeAssembly, BinaryReader reader)
         {
-            var isNotNull = reader.ReadBoolean();
+            var binaryType = reader.ReadBinaryType();
 
-            if (isNotNull)
+            switch (binaryType)
             {
-                var typeName = reader.ReadString();
+                case BinaryType.Null:
+                    return null;
+                case BinaryType.Serializable:
+                    return DeserializeNonNull(typeAssembly, reader);
+                default:
+                    throw new InvalidDataException($"Unexpected type '{binaryType}'");
+            }
+        }
 
-                var type =
-                    typeAssembly.GetType(typeName) ??
-                    Assembly.GetEntryAssembly().GetType(typeName);
+        private static object DeserializeNonNull(Assembly typeAssembly, BinaryReader reader)
+        {
+            var typeName = reader.ReadString();
 
-                if (type is null)
-                {
-                    throw new SerializationException($"Cannot access Type '{typeName}'");
-                }
+            var type =
+                typeAssembly.GetType(typeName) ??
+                Assembly.GetEntryAssembly().GetType(typeName);
 
-                var constructor = FindConstructor(type);
-
-                return constructor(reader);
+            if (type is null)
+            {
+                throw new SerializationException($"Cannot access Type '{typeName}'");
             }
 
-            return null;
+            var constructor = FindConstructor(type);
+
+            return constructor(reader);
         }
 
         public static T Deserialize<T>(Stream serialized) where T : class
@@ -93,7 +101,7 @@ namespace SLD.Serialization.Binary
                     return null;
 
                 case BinaryType.Serializable:
-                    return Deserialize(typeAssembly ?? Assembly.GetCallingAssembly(), reader);
+                    return DeserializeNonNull(typeAssembly ?? Assembly.GetCallingAssembly(), reader);
 
                 case BinaryType.String:
                     return reader.ReadString();
@@ -184,19 +192,24 @@ namespace SLD.Serialization.Binary
         {
             if (serializable is null)
             {
-                writer.Write(false);
+                writer.Write(BinaryType.Null);
             }
             else
             {
-                writer.Write(true);
+                writer.Write(BinaryType.Serializable);
 
-                if (withTypeInfo)
-                {
-                    writer.Write(serializable.GetType().FullName);
-                }
-
-                serializable.Serialize(writer);
+                SerializeNonNull(serializable, withTypeInfo, writer);
             }
+        }
+
+        private static void SerializeNonNull(IBinarySerializable serializable, bool withTypeInfo, BinaryWriter writer)
+        {
+            if (withTypeInfo)
+            {
+                writer.Write(serializable.GetType().FullName);
+            }
+
+            serializable.Serialize(writer);
         }
 
         public static void SerializeGeneric(object item, BinaryWriter writer)
@@ -208,7 +221,7 @@ namespace SLD.Serialization.Binary
             else if (item is IBinarySerializable instance)
             {
                 writer.Write(BinaryType.Serializable);
-                Serialize(instance, true, writer);
+                SerializeNonNull(instance, true, writer);
             }
             else if (item is String @String)
             {
