@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <PackageId>SLD.Serialization.Hash</PackageId>
+    <Authors>Andreas Hassmann</Authors>
+    <Company>Schloss Lautereck Design</Company>
+    <Description>XXHash3 algorithm
+SLD language wrapper around the XXHash3.NET repo by Crauzer</Description>
+    <PackageProjectUrl>https://github.com/Hassmann/serialization</PackageProjectUrl>
+	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	  <PackageIcon>SLD-Software-Nuget.png</PackageIcon>
+    <RepositoryUrl>https://github.com/Hassmann/serialization</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RootNamespace>SLD.Serialization</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="XXHash3.NET" Version="1.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Serialization\Serialization.Binary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="SLD-Software-Nuget.png">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
+
+</Project>

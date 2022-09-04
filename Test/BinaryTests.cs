@@ -76,7 +76,51 @@ namespace Test
             Assert.Equal(thing, deserialized);
         }
 
+        [Theory]
+        [InlineData(null)]
+        [InlineData((String)"42")]
+        [InlineData((Boolean)true)]
+        [InlineData((Byte)42)]
+        [InlineData((SByte)42)]
+        [InlineData((Char)42)]
+        //[InlineData((Decimal)42)]
+        [InlineData((Double)42)]
+        [InlineData((Single)42)]
+        [InlineData((Int32)42)]
+        [InlineData((UInt32)42)]
+        [InlineData((Int64)42)]
+        [InlineData((UInt64)42)]
+        [InlineData((Int16)42)]
+        [InlineData((UInt16)42)]
+        public void GenericValue(object item)
+        {
+            using var stream = new MemoryStream();
+            using var writer = new BinaryWriter(stream);
 
+            Binary.SerializeGeneric(item, writer);
 
+            stream.Position = 0;
+
+            var deserialized = Binary.DeserializeGeneric(stream);
+
+            if (item is not null)
+            {
+                Assert.IsType(item.GetType(), deserialized);
+            }
+
+            Assert.Equal(item, deserialized);
+        }
+
+        [Fact]
+        public void GenericInstance()
+        {
+            GenericValue(new DerivedObject { Name = "Generic" });
+        }
+
+        [Fact]
+        public void GenericDecimal()
+        {
+            GenericValue((Decimal)42);
+        }
     }
 }

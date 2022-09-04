@@ -12,21 +12,8 @@ stages:
     jobs:
     - template: BuildLibrary.yml@templates
       parameters:
-        packagesToPack: '**/Serialization.csproj'
+        packagesToPack: '**/Serialization.*.csproj'
         
   - stage: Publish
     jobs:
-    - job: PublishToArtifacts
-      steps:
-      - task: DownloadPipelineArtifact@1
-        inputs:
-          buildType: 'current'
-          artifactName: 'Artifacts'
-          targetPath: '$(build.artifactstagingdirectory)'
-      - task: NuGetCommand@2
-        displayName: 'Push NuGet to Feed'
-        inputs:
-          command: 'push'
-          packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.snupkg'
-          nuGetFeedType: 'internal'
-          publishVstsFeed: '6ccb127a-73ca-413a-a232-1c9d8068ca27/3fa84e8f-496b-44a0-b0fe-5e6552a1bd76'
+    - template: PublishToArtifacts.yml@templates
