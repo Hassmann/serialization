@@ -105,7 +105,7 @@ namespace Test
 
             if (item is not null)
             {
-                Assert.IsType(item.GetType(), deserialized); 
+                Assert.IsType(item.GetType(), deserialized);
             }
 
             Assert.Equal(item, deserialized);

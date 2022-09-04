@@ -42,7 +42,7 @@ namespace Test
     {
         public DerivedObject()
         {
-
+            Name = nameof(DerivedObject);
         }
 
         public DerivedObject(BinaryReader reader) : base(reader)
