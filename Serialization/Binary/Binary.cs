@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
@@ -11,12 +12,9 @@ namespace SLD.Serialization.Binary
     {
         #region Deserialization
 
-        private static readonly Dictionary<Type, Func<BinaryReader, object>> _knownConstructors = new Dictionary<Type, Func<BinaryReader, object>>();
+        private static readonly Dictionary<string, Func<BinaryReader, object>> _knownConstructors = new Dictionary<string, Func<BinaryReader, object>>();
 
         public static object Deserialize(Stream serialized)
-            => Deserialize(serialized, Assembly.GetCallingAssembly());
-
-        public static object Deserialize(Stream serialized, Assembly typeAssembly)
         {
             if (serialized.Length == serialized.Position)
             {
@@ -24,10 +22,10 @@ namespace SLD.Serialization.Binary
             }
 
             using (var reader = new BinaryReader(serialized, Encoding.UTF8, true))
-                return Deserialize(typeAssembly, reader);
+                return Deserialize(reader);
         }
 
-        public static object Deserialize(Assembly typeAssembly, BinaryReader reader)
+        public static object Deserialize(BinaryReader reader)
         {
             var binaryType = reader.ReadBinaryType();
 
@@ -35,29 +33,13 @@ namespace SLD.Serialization.Binary
             {
                 case BinaryType.Null:
                     return null;
+
                 case BinaryType.Serializable:
-                    return DeserializeNonNull(typeAssembly, reader);
+                    return DeserializeNonNull(reader);
+
                 default:
                     throw new InvalidDataException($"Unexpected type '{binaryType}'");
             }
-        }
-
-        private static object DeserializeNonNull(Assembly typeAssembly, BinaryReader reader)
-        {
-            var typeName = reader.ReadString();
-
-            var type =
-                typeAssembly.GetType(typeName) ??
-                Assembly.GetEntryAssembly().GetType(typeName);
-
-            if (type is null)
-            {
-                throw new SerializationException($"Cannot access Type '{typeName}'");
-            }
-
-            var constructor = FindConstructor(type);
-
-            return constructor(reader);
         }
 
         public static T Deserialize<T>(Stream serialized) where T : class
@@ -77,7 +59,7 @@ namespace SLD.Serialization.Binary
 
             if (isNotNull)
             {
-                var constructor = FindConstructor(typeof(T));
+                var constructor = FindConstructor(typeof(T).FullName);
 
                 return (T)constructor(reader);
             }
@@ -85,13 +67,13 @@ namespace SLD.Serialization.Binary
             return null;
         }
 
-        public static object DeserializeGeneric(MemoryStream stream, Assembly typeAssembly = null)
+        public static object DeserializeGeneric(MemoryStream stream)
         {
             using (var reader = new BinaryReader(stream, Encoding.UTF8, true))
-                return DeserializeGeneric(reader, typeAssembly ?? Assembly.GetCallingAssembly());
+                return DeserializeGeneric(reader);
         }
 
-        public static object DeserializeGeneric(BinaryReader reader, Assembly typeAssembly = null)
+        public static object DeserializeGeneric(BinaryReader reader)
         {
             var binaryType = reader.ReadBinaryType();
 
@@ -101,7 +83,7 @@ namespace SLD.Serialization.Binary
                     return null;
 
                 case BinaryType.Serializable:
-                    return DeserializeNonNull(typeAssembly ?? Assembly.GetCallingAssembly(), reader);
+                    return DeserializeNonNull(reader);
 
                 case BinaryType.String:
                     return reader.ReadString();
@@ -150,12 +132,23 @@ namespace SLD.Serialization.Binary
             }
         }
 
-        private static Func<BinaryReader, object> FindConstructor(Type type)
+        private static object DeserializeNonNull(BinaryReader reader)
         {
-            if (_knownConstructors.TryGetValue(type, out var found))
+            var typeName = reader.ReadString();
+
+            Func<BinaryReader, object> constructor = FindConstructor(typeName);
+
+            return constructor(reader);
+        }
+
+        private static Func<BinaryReader, object> FindConstructor(string typeName)
+        {
+            if (_knownConstructors.TryGetValue(typeName, out var found))
             {
                 return found;
             }
+
+            Type type = FindType(typeName, Assembly.GetCallingAssembly());
 
             var constructor = type.GetConstructor(new Type[] { typeof(BinaryReader) });
 
@@ -166,9 +159,32 @@ namespace SLD.Serialization.Binary
 
             Func<BinaryReader, object> call = reader => constructor.Invoke(new object[] { reader });
 
-            _knownConstructors[type] = call;
+            _knownConstructors[typeName] = call;
 
             return call;
+        }
+
+        private static Type FindType(string typeName, Assembly callingAssembly)
+        {
+            // Quick: Calling assembly
+            var type = callingAssembly.GetType(typeName);
+
+            if (type is null)
+            {
+                // Slow: All assemblies
+                var allAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+                type = allAssemblies
+                    .Select(assembly => assembly.GetType(typeName))
+                    .FirstOrDefault(t => t != null);
+            }
+
+            if (type is null)
+            {
+                throw new SerializationException($"Cannot access Type '{typeName}'");
+            }
+
+            return type;
         }
 
         #endregion Deserialization
@@ -200,16 +216,6 @@ namespace SLD.Serialization.Binary
 
                 SerializeNonNull(serializable, withTypeInfo, writer);
             }
-        }
-
-        private static void SerializeNonNull(IBinarySerializable serializable, bool withTypeInfo, BinaryWriter writer)
-        {
-            if (withTypeInfo)
-            {
-                writer.Write(serializable.GetType().FullName);
-            }
-
-            serializable.Serialize(writer);
         }
 
         public static void SerializeGeneric(object item, BinaryWriter writer)
@@ -294,6 +300,16 @@ namespace SLD.Serialization.Binary
                 writer.Write(@UInt16);
             }
             else throw new NotSupportedException($"Cannot serialize type '{item.GetType()}'");
+        }
+
+        private static void SerializeNonNull(IBinarySerializable serializable, bool withTypeInfo, BinaryWriter writer)
+        {
+            if (withTypeInfo)
+            {
+                writer.Write(serializable.GetType().FullName);
+            }
+
+            serializable.Serialize(writer);
         }
 
         #endregion Serialization
