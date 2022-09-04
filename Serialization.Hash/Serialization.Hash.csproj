@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <PackageId>SLD.Serialization.Binary</PackageId>
+    <PackageId>SLD.Serialization.Hash</PackageId>
     <Authors>Andreas Hassmann</Authors>
     <Company>Schloss Lautereck Design</Company>
     <Description>XXHash3 algorithm
