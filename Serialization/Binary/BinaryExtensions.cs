@@ -21,5 +21,11 @@ namespace SLD.Serialization.Binary
 
         public static void Write<T>(this BinaryWriter writer, T value) where T : IBinarySerializable
             => Binary.Serialize(value, false, writer);
+
+        // Internals
+        internal static void Write(this BinaryWriter writer, BinaryType type)
+            => writer.Write((byte)type);
+        internal static BinaryType ReadBinaryType(this BinaryReader reader)
+            => (BinaryType)reader.ReadByte();
     }
 }
