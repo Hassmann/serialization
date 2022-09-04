@@ -12,7 +12,7 @@ stages:
     jobs:
     - template: BuildLibrary.yml@templates
       parameters:
-        packagesToPack: '**/Serialization.csproj'
+        packagesToPack: '**/Serialization.*.csproj'
         
   - stage: Publish
     jobs:
