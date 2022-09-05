@@ -79,8 +79,8 @@ namespace Test
 
         public ComplexObject(BinaryReader reader) : base(reader)
         {
-            Nothing = (TestObject)reader.ReadDerived();
-            Something = (TestObject)reader.ReadDerived();
+            Nothing = reader.ReadDerived<TestObject>();
+            Something = reader.ReadDerived<TestObject>();
             KnownNothing = reader.Read<DerivedObject>();
             KnownSomething = reader.Read<DerivedObject>();
         }

@@ -231,17 +231,17 @@ namespace SLD.Serialization
 
         #region Enumerable
 
-        public static void SerializeAll<T>(IEnumerable<T> serializables, BinaryWriter writer) where T : IBinarySerializable
+        public static void SerializeAll(IEnumerable<IBinarySerializable> serializables, BinaryWriter writer, bool withTypeInfo = false)
         {
             writer.Write((UInt32)(serializables.Count()));
 
             foreach (var serializable in serializables)
             {
-                Serialize(serializable, false, writer);
+                Serialize(serializable, withTypeInfo, writer);
             }
         }
 
-        public static IEnumerable<T> DeserializeAll<T>(BinaryReader reader) where T : class, IBinarySerializable
+        public static IEnumerable<T> DeserializeAll<T>(BinaryReader reader) where T : IBinarySerializable
         {
             var count = reader.ReadUInt32();
 
@@ -261,13 +261,13 @@ namespace SLD.Serialization
             }
         }
 
-        public static IEnumerable<T> DeserializeAllDerived<T>(BinaryReader reader) where T : class, IBinarySerializable
+        public static IEnumerable<T> DeserializeAllDerived<T>(BinaryReader reader) where T : IBinarySerializable
         {
             var count = reader.ReadUInt32();
 
             for (int i = 0; i < count; i++)
             {
-                yield return DeserializeDerived(reader) as T;
+                yield return (T)DeserializeDerived(reader);
             }
         }
 
@@ -301,13 +301,13 @@ namespace SLD.Serialization
             }
         }
 
-        public static IEnumerable<T> DeserializeAllCustom<T>(BinaryReader reader, Func<BinaryReader, object> deserialize) where T : class, IBinarySerializable
+        public static IEnumerable<T> DeserializeAllCustom<T>(BinaryReader reader, Func<BinaryReader, object> deserialize) where T : IBinarySerializable
         {
             var count = reader.ReadUInt32();
 
             for (int i = 0; i < count; i++)
             {
-                yield return DeserializeDerived(reader) as T;
+                yield return (T)DeserializeDerived(reader);
             }
         }
 
