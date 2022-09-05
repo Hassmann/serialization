@@ -4,12 +4,12 @@ namespace SLD.Serialization
 {
     public static class BinaryExtensions
     {
-        public static Stream ToBinaryStream(this IBinarySerializable source, bool withTypeInfo = false)
-            => Binary.Serialize(source, withTypeInfo);
+        //public static Stream ToBinaryStream(this IBinarySerializable source, bool withTypeInfo = false)
+        //    => Binary.Serialize(source, withTypeInfo);
 
         // Reader
         public static object ReadDerived(this BinaryReader reader)
-            => Binary.Deserialize(reader);
+            => Binary.DeserializeDerived(reader);
 
         public static object ReadGeneric(this BinaryReader reader)
             => Binary.DeserializeGeneric(reader);
@@ -26,6 +26,11 @@ namespace SLD.Serialization
 
         public static void WriteGeneric(this BinaryWriter writer, object value)
             => Binary.SerializeGeneric(value, writer);
+
+        //public static void WriteAll<T>(this BinaryWriter writer, IEnumerable<T> value) where T : IBinarySerializable
+        //    => Binary.SerializeAll(value, false, writer);
+
+
 
         // Internals
         internal static void Write(this BinaryWriter writer, BinaryType type)

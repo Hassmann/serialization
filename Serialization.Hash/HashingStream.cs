@@ -5,7 +5,7 @@ namespace SLD.Serialization
 {
     public class HashingStream : Stream
     {
-        private Stream _underlying;
+        private readonly Stream _underlying;
 
         public HashingStream(Stream underlying)
         {
