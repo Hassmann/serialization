@@ -219,7 +219,7 @@ namespace SLD.Serialization
         public static void SerializeCustom<T>(T serializable, BinaryWriter writer, Action<T, BinaryWriter> writeType) where T : IBinarySerializable
         {
             writeType(serializable, writer);
-            serializable.Serialize(writer);
+            serializable?.Serialize(writer);
         }
 
         public static object DeserializeCustom(BinaryReader reader, Func<BinaryReader, object> deserialize)
