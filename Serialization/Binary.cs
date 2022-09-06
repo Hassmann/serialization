@@ -216,7 +216,7 @@ namespace SLD.Serialization
 
         #region Custom
 
-        public static void SerializeCustom(IBinarySerializable serializable, BinaryWriter writer, Action<IBinarySerializable, BinaryWriter> writeType)
+        public static void SerializeCustom<T>(T serializable, BinaryWriter writer, Action<T, BinaryWriter> writeType) where T : IBinarySerializable
         {
             writeType(serializable, writer);
             serializable.Serialize(writer);
@@ -291,13 +291,13 @@ namespace SLD.Serialization
             }
         }
 
-        public static void SerializeAllCustom<T>(IEnumerable<T> serializables, BinaryWriter writer, Action<IBinarySerializable, BinaryWriter> writeType) where T : IBinarySerializable
+        public static void SerializeAllCustom<T>(IEnumerable<T> serializables, BinaryWriter writer, Action<T, BinaryWriter> writeType) where T : IBinarySerializable
         {
             writer.Write((UInt32)(serializables.Count()));
 
             foreach (var serializable in serializables)
             {
-                Serialize(serializable, true, writer);
+                SerializeCustom(serializable, writer, writeType);
             }
         }
 
@@ -307,7 +307,7 @@ namespace SLD.Serialization
 
             for (int i = 0; i < count; i++)
             {
-                yield return (T)DeserializeDerived(reader);
+                yield return (T)DeserializeCustom(reader, deserialize);
             }
         }
 

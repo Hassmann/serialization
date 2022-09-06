@@ -41,8 +41,8 @@ namespace SLD.Serialization
         public static void WriteGeneric(this BinaryWriter writer, object value)
             => Binary.SerializeGeneric(value, writer);
 
-        public static void WriteCustom(this BinaryWriter writer, IBinarySerializable value, Action<IBinarySerializable, BinaryWriter> writeType)
-            => Binary.SerializeCustom(value, writer, writeType);
+        public static void WriteCustom<T>(this BinaryWriter writer, T value, Action<T, BinaryWriter> writeType) where T : IBinarySerializable
+            => Binary.SerializeCustom<T>(value, writer, writeType);
 
         public static void WriteAll(this BinaryWriter writer, IEnumerable<IBinarySerializable> values, bool withTypeInfo = false)
             => Binary.SerializeAll(values, writer, withTypeInfo);
@@ -53,8 +53,8 @@ namespace SLD.Serialization
         public static void WriteAllGeneric(this BinaryWriter writer, IEnumerable<IBinarySerializable> values)
             => Binary.SerializeAllGeneric(values, writer);
 
-        public static void WriteAllCustom(this BinaryWriter writer, IEnumerable<IBinarySerializable> values, Action<IBinarySerializable, BinaryWriter> writeType)
-            => Binary.SerializeAllCustom(values, writer, writeType);
+        public static void WriteAllCustom<T>(this BinaryWriter writer, IEnumerable<T> values, Action<T, BinaryWriter> writeType) where T : IBinarySerializable
+            => Binary.SerializeAllCustom<T>(values, writer, writeType);
 
 
         // Internals
