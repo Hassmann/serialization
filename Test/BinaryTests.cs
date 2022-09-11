@@ -7,7 +7,7 @@ namespace Test
     {
         private readonly MemoryStream MemoryStream;
         private readonly BinaryWriter Writer;
-        private BinaryReader _reader;
+        private BinaryReader? _reader;
 
         public BinaryTests()
         {

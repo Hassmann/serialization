@@ -7,7 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serialization.Binary", "Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{2B67EC1D-CE10-4864-B16A-8EF8EF5837D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serialization.Hash", "Serialization.Hash\Serialization.Hash.csproj", "{F5A7E773-EC97-46BB-B908-3DD1FAD58E07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serialization.Hash", "Serialization.Hash\Serialization.Hash.csproj", "{F5A7E773-EC97-46BB-B908-3DD1FAD58E07}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8FF6F575-BF78-4341-AEAB-8422140C70DD}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines-development.yml = azure-pipelines-development.yml
+		azure-pipelines-main.yml = azure-pipelines-main.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
