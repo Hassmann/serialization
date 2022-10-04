@@ -1,34 +1,39 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <PackageId>SLD.Serialization.Hash</PackageId>
-    <Authors>Andreas Hassmann</Authors>
-    <Company>Schloss Lautereck Design</Company>
-    <Description>XXHash3 algorithm
-SLD language wrapper around the XXHash3.NET repo by Crauzer</Description>
-    <PackageProjectUrl>https://github.com/Hassmann/serialization</PackageProjectUrl>
-	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-	  <PackageIcon>SLD-Software-Nuget.png</PackageIcon>
-    <RepositoryUrl>https://github.com/Hassmann/serialization</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RootNamespace>SLD.Serialization</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;netcoreapp3.1;netstandard2.1;netstandard2.0</TargetFrameworks>
+		<PackageId>SLD.Serialization.Hash</PackageId>
+		<Authors>Crauzer, Andreas Hassmann</Authors>
+		<Company>Schloss Lautereck Design</Company>
+		<Description>
+XXHash3 algorithm
+SLD namespacing fork of XXHash3.NET by Crauzer, adding streams
+		</Description>
+		<LangVersion>preview</LangVersion>
+		<PackageProjectUrl>https://github.com/Hassmann/serialization</PackageProjectUrl>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageIcon>SLD-Software-Nuget.png</PackageIcon>
+		<RepositoryUrl>https://github.com/Hassmann/serialization</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RootNamespace>SLD.Serialization</RootNamespace>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="XXHash3.NET" Version="1.2.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Memory" Version="4.5.4" />
+		<PackageReference Include="IndexRange" Version="1.0.2" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Serialization\Serialization.Binary.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Serialization\Serialization.Binary.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="SLD-Software-Nuget.png">
-      <PackagePath>\</PackagePath>
-      <Pack>True</Pack>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="SLD-Software-Nuget.png">
+			<PackagePath>\</PackagePath>
+			<Pack>True</Pack>
+		</None>
+	</ItemGroup>
 
 </Project>

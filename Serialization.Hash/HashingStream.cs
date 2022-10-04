@@ -12,6 +12,8 @@ namespace SLD.Serialization
             _underlying = underlying;
         }
 
+        public Hash Hash { get; private set; }
+
         public override bool CanRead
             => _underlying.CanRead;
 

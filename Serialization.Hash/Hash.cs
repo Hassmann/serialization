@@ -46,12 +46,7 @@ namespace SLD.Serialization
         {
             byte[] bytes = Convert.FromBase64String(serializedHash);
 
-            return new Hash(BitConverter.ToUInt64(bytes));
-        }
-
-        public static Hash Deserialize(BinaryReader reader)
-        {
-            return new Hash(reader);
+            return new Hash(BitConverter.ToUInt64(bytes, 0));
         }
 
         public void Serialize(BinaryWriter writer)
