@@ -250,7 +250,7 @@ namespace Test
         [Fact]
         public void GenericEnumerable()
         {
-            var things = new object[]
+            var things = new object?[]
             {
                 null,
                 "Some text",

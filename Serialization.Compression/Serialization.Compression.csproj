@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+	  <RootNamespace>SLD.Serialization</RootNamespace>
+	  <PackageId>SLD.Serialization.Compression</PackageId>
+	  <Authors>Andreas Hassmann</Authors>
+	  <Company>Schloss Lautereck Design</Company>
+	  <Description>Wrapper around stdzstd compression implemented by </Description>
+	  <PackageProjectUrl>https://github.com/Hassmann/serialization</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/Hassmann/serialization</RepositoryUrl>
+	  <RepositoryType>git</RepositoryType>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	  <PackageIcon>SLD-Software-Nuget.png</PackageIcon>
+	  <Platforms>x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ZstdSharp.Port" Version="0.6.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="SLD-Software-Nuget.png">
+      <PackagePath>\</PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
+
+</Project>
