@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
-using XXHash3NET;
 
 namespace SLD.Serialization
 {
+    using XXHash3NET;
+
     public struct Hash : IBinarySerializable
     {
         public const int BitLength = 64;

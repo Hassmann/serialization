@@ -4,9 +4,9 @@ using System.Runtime.CompilerServices;
 #if NETCOREAPP
 using System.Runtime.Intrinsics.X86;
 #endif
-namespace XXHash3NET
+namespace SLD.Serialization.XXHash3NET
 {
-    public static class XXHash3
+    public static partial class XXHash3
     {
 
         private const uint XXH_PRIME32_1 = 0x9E3779B1U;
@@ -259,31 +259,6 @@ namespace XXHash3NET
                 acc[i] += xxh_mul32to64(data_key & 0xFFFFFFFF, data_key >> 32);
             }
         }
-        private static unsafe void xxh3_accumulate_512_sse2(ulong[] acc, ReadOnlySpan<byte> data, ReadOnlySpan<byte> secret)
-        {
-            //Span<Vector128<uint>> xacc = MemoryMarshal.Cast<ulong, Vector128<uint>>(acc);
-            //ReadOnlySpan<Vector128<uint>> xdata = MemoryMarshal.Cast<byte, Vector128<uint>>(data);
-            //ReadOnlySpan<Vector128<uint>> xsecret = MemoryMarshal.Cast<byte, Vector128<uint>>(secret);
-            //
-            //for (int i = 0; i < XXH_STRIPE_LEN / 16; i++)
-            //{
-            //    Vector128<uint> data_vec = xdata[i];
-            //    Vector128<uint> key_vec = xsecret[i];
-            //
-            //    Vector128<uint> data_key = Sse2.Xor(data_vec, key_vec);
-            //    Vector128<uint> data_key_low = Sse2.Shuffle(data_key, _mm_shuffle(0, 3, 0, 1));
-            //    Vector128<uint> product = Sse2.Multiply(data_key, data_key_low).AsUInt32();
-            //
-            //    Vector128<uint> data_swap = Sse2.Shuffle(data_vec, _mm_shuffle(1, 0, 3, 2));
-            //    Vector128<uint> sum = Sse2.Add(xacc[i], data_swap);
-            //
-            //    xacc[i] = Sse2.Add(product, sum);
-            //}
-        }
-        private static void xxh3_accumulate_512_avx2(ulong[] acc, ReadOnlySpan<byte> data, ReadOnlySpan<byte> secret)
-        {
-
-        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] private static void xxh3_scramble_acc_scalar(ulong[] acc, ReadOnlySpan<byte> secret)
         {
@@ -298,14 +273,6 @@ namespace XXHash3NET
 
                 acc[i] = acc64;
             }
-        }
-        private static void xxh3_scramble_acc_sse2(ulong[] acc, ReadOnlySpan<byte> secret)
-        {
-
-        }
-        private static void xxh3_scramble_acc_avx2(ulong[] acc, ReadOnlySpan<byte> secret)
-        {
-
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)] private static ulong xxh_xorshift64(ulong v64, int shift)
