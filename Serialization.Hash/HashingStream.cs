@@ -6,7 +6,7 @@ namespace SLD.Serialization
 {
     public class HashingStream : Stream
     {
-        XXHash3.ContinousHash _hash = new();
+        readonly XXHash3.ContinousHash _hash = new();
 
         private readonly Stream _destination;
 

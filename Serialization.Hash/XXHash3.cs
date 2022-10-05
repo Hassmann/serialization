@@ -203,7 +203,8 @@ namespace SLD.Serialization.XXHash3NET
             return xxh3_mul128_fold64(acc[0] ^ read_le64(secret), acc[1] ^ read_le64(secret[8..]));
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static ulong xxh3_avalanche(ulong hash)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ulong xxh3_avalanche(ulong hash)
         {
             hash = xxh_xorshift64(hash, 37);
             hash *= 0x165667919E3779F9UL;
@@ -211,7 +212,8 @@ namespace SLD.Serialization.XXHash3NET
 
             return hash;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static ulong xxh64_avalanche(ulong hash)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ulong xxh64_avalanche(ulong hash)
         {
             hash ^= hash >> 33;
             hash *= XXH_PRIME64_2;
@@ -222,7 +224,8 @@ namespace SLD.Serialization.XXHash3NET
             return hash;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static ulong xxh3_rrmxmx(ulong h64, ulong len)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ulong xxh3_rrmxmx(ulong h64, ulong len)
         {
             h64 ^= rotl64(h64, 49) ^ rotl64(h64, 24);
             h64 *= 0x9FB21C651E98DF25UL;
@@ -231,7 +234,8 @@ namespace SLD.Serialization.XXHash3NET
 
             return xxh_xorshift64(h64, 28);
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static ulong xxh3_mix16B(ReadOnlySpan<byte> data, ReadOnlySpan<byte> secret, ulong seed)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ulong xxh3_mix16B(ReadOnlySpan<byte> data, ReadOnlySpan<byte> secret, ulong seed)
         {
             ulong input_low = read_le64(data);
             ulong input_high = read_le64(data[8..]);
@@ -248,7 +252,8 @@ namespace SLD.Serialization.XXHash3NET
                 xxh3_accumulate_512_scalar(acc, data[(i * XXH_STRIPE_LEN)..], secret[(i * 8)..]);
             }
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static void xxh3_accumulate_512_scalar(ulong[] acc, ReadOnlySpan<byte> data, ReadOnlySpan<byte> secret)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void xxh3_accumulate_512_scalar(ulong[] acc, ReadOnlySpan<byte> data, ReadOnlySpan<byte> secret)
         {
             for (int i = 0; i < XXH_ACC_NB; i++)
             {
@@ -260,7 +265,8 @@ namespace SLD.Serialization.XXHash3NET
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static void xxh3_scramble_acc_scalar(ulong[] acc, ReadOnlySpan<byte> secret)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void xxh3_scramble_acc_scalar(ulong[] acc, ReadOnlySpan<byte> secret)
         {
             for (int i = 0; i < XXH_ACC_NB; i++)
             {
@@ -275,11 +281,13 @@ namespace SLD.Serialization.XXHash3NET
             }
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static ulong xxh_xorshift64(ulong v64, int shift)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ulong xxh_xorshift64(ulong v64, int shift)
         {
             return v64 ^ (v64 >> shift);
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static unsafe ulong xxh3_mul128_fold64(ulong lhs, ulong rhs)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static unsafe ulong xxh3_mul128_fold64(ulong lhs, ulong rhs)
         {
 #if NETCOREAPP
             ulong low;
@@ -290,7 +298,8 @@ namespace SLD.Serialization.XXHash3NET
 
             return xxh3_mul128_fold64_slow(rhs, lhs);
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static unsafe ulong xxh3_mul128_fold64_slow(ulong lhs, ulong rhs)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static unsafe ulong xxh3_mul128_fold64_slow(ulong lhs, ulong rhs)
         {
             uint lhsHigh = (uint)(lhs >> 32);
             uint rhsHigh = (uint)(rhs >> 32);
@@ -311,35 +320,42 @@ namespace SLD.Serialization.XXHash3NET
 
             return high + low;
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static ulong xxh_mul32to64(ulong x, ulong y)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ulong xxh_mul32to64(ulong x, ulong y)
         {
             return (ulong)(uint)x * (ulong)(uint)y;
         }
 
 
         // -------------- UTILITY METHODS -------------- \\
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static uint read_le32(ReadOnlySpan<byte> data)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static uint read_le32(ReadOnlySpan<byte> data)
         {
             return BinaryPrimitives.ReadUInt32LittleEndian(data);
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static ulong read_le64(ReadOnlySpan<byte> data)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ulong read_le64(ReadOnlySpan<byte> data)
         {
             return BinaryPrimitives.ReadUInt64LittleEndian(data);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static uint swap32(uint value)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static uint swap32(uint value)
         {
             return BinaryPrimitives.ReverseEndianness(value);
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static ulong swap64(ulong value)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ulong swap64(ulong value)
         {
             return BinaryPrimitives.ReverseEndianness(value);
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static ulong rotl64(ulong value, int shift)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ulong rotl64(ulong value, int shift)
         {
             return (value << shift) | (value >> (64 - shift));
         }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)] private static ulong rotr64(ulong value, int shift)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static ulong rotr64(ulong value, int shift)
         {
             return (value << (64 - shift)) | (value >> shift);
         }

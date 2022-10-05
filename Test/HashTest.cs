@@ -1,7 +1,6 @@
 ﻿using SLD.Serialization;
-using System.Text;
 using SLD.Serialization.XXHash3NET;
-using System.Drawing;
+using System.Text;
 
 namespace Test
 {

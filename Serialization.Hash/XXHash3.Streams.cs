@@ -1,12 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Net.Sockets;
+/* Unmerged change from project 'Serialization.Hash (netstandard2.0)'
+Before:
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+After:
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+*/
+
+/* Unmerged change from project 'Serialization.Hash (netstandard2.1)'
+Before:
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+After:
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+*/
+
+/* Unmerged change from project 'Serialization.Hash (netcoreapp3.1)'
+Before:
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+After:
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+*/
+
 
 namespace SLD.Serialization.XXHash3NET
 {
@@ -15,10 +41,9 @@ namespace SLD.Serialization.XXHash3NET
     {
         public class ContinousHash
         {
-            int _blockLength;
-            int _stripesPerBlock;
-
-            byte[] _buffer;
+            readonly int _blockLength;
+            readonly int _stripesPerBlock;
+            readonly byte[] _buffer;
             int _index;
             ulong[] _acc;
 
@@ -159,7 +184,7 @@ namespace SLD.Serialization.XXHash3NET
 
                 return xxh3_merge_accs(_acc, readSecret[11..], (ulong)_length * XXH_PRIME64_1);
             }
-            
+
         }
 
     }
