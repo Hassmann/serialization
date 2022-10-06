@@ -30,10 +30,7 @@ SLD namespacing fork of XXHash3.NET by Crauzer, adding streams
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="SLD-Software-Nuget.png">
-			<PackagePath>\</PackagePath>
-			<Pack>True</Pack>
-		</None>
+		<None Include="SLD-Software-Nuget.png" PackagePath="" Pack="true"/>
 	</ItemGroup>
 
 </Project>
