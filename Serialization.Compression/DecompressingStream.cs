@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using ZstdSharp;
+using ZstdNet;
 
 namespace SLD.Serialization
 {
