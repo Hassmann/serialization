@@ -266,6 +266,24 @@ namespace Test
             Assert.True(things.SequenceEqual(deserialized));
         }
 
+        [Fact]
+        public void Strings()
+        {
+            var strings = new []
+            {
+                "1",
+                "2",
+                "3",
+            };
+
+            Binary.SerializeAll(strings, Writer);
+
+            var deserialized = Binary.DeserializeAllStrings(Reader).ToArray();
+
+            Assert.NotNull(deserialized);
+            Assert.True(strings.SequenceEqual(deserialized));
+        }
+
         private void CustomSerializeType(IBinarySerializable serializable, BinaryWriter writer)
         {
             byte tag = serializable switch

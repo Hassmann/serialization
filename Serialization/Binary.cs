@@ -311,6 +311,26 @@ namespace SLD.Serialization
             }
         }
 
+        public static void SerializeAll(IEnumerable<string> values, BinaryWriter writer)
+        {
+            writer.Write((UInt32)(values.Count()));
+
+            foreach (var value in values)
+            {
+                writer.Write(value);
+            }
+        }
+
+        public static IEnumerable<string> DeserializeAllStrings(BinaryReader reader)
+        {
+            var count = reader.ReadUInt32();
+
+            for (int i = 0; i < count; i++)
+            {
+                yield return reader.ReadString();
+            }
+        }
+
         #endregion Enumerable
 
         private static void SerializeNonNull(IBinarySerializable serializable, bool withTypeInfo, BinaryWriter writer)

@@ -31,6 +31,9 @@ namespace SLD.Serialization
         public static IEnumerable<T> ReadAllCustom<T>(this BinaryReader reader, Func<BinaryReader, object> deserialize) where T : IBinarySerializable
             => Binary.DeserializeAllCustom<T>(reader, deserialize);
 
+        public static IEnumerable<string> ReadStrings(this BinaryReader reader)
+            => Binary.DeserializeAllStrings(reader);
+
         // Writer
         public static void Write(this BinaryWriter writer, IBinarySerializable value, bool withTypeInfo = false)
             => Binary.Serialize(value, withTypeInfo, writer);
@@ -55,6 +58,9 @@ namespace SLD.Serialization
 
         public static void WriteAllCustom<T>(this BinaryWriter writer, IEnumerable<T> values, Action<T, BinaryWriter> writeType) where T : IBinarySerializable
             => Binary.SerializeAllCustom<T>(values, writer, writeType);
+
+        public static void Write(this BinaryWriter writer, IEnumerable<string> values)
+            => Binary.SerializeAll(values, writer);
 
 
         // Internals
