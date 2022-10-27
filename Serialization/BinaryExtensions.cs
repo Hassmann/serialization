@@ -67,7 +67,7 @@ namespace SLD.Serialization
         public static void Write(this BinaryWriter writer, IEnumerable<string> values)
             => Binary.SerializeAll(values, writer);
 
-        public static void Write(this BinaryWriter writer, string? value)
+        public static void WriteNullable(this BinaryWriter writer, string? value)
             => Binary.Serialize(value, writer);
 
 
