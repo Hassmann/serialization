@@ -13,7 +13,7 @@ namespace SLD.Serialization
 
         #region Serializable
 
-        public static void Serialize(IBinarySerializable serializable, bool withTypeInfo, BinaryWriter writer)
+        public static void Serialize(IBinarySerializable? serializable, bool withTypeInfo, BinaryWriter writer)
         {
             if (serializable is null)
             {
@@ -27,7 +27,7 @@ namespace SLD.Serialization
             }
         }
 
-        public static T Deserialize<T>(BinaryReader reader) where T : IBinarySerializable
+        public static T? Deserialize<T>(BinaryReader reader) where T : IBinarySerializable
         {
             var binaryType = reader.ReadBinaryType();
 
@@ -48,7 +48,7 @@ namespace SLD.Serialization
             }
         }
 
-        public static object DeserializeDerived(BinaryReader reader)
+        public static object? DeserializeDerived(BinaryReader reader)
         {
             var binaryType = reader.ReadBinaryType();
 
@@ -69,7 +69,7 @@ namespace SLD.Serialization
 
         #region Generic
 
-        public static void SerializeGeneric(object item, BinaryWriter writer)
+        public static void SerializeGeneric(object? item, BinaryWriter writer)
         {
             if (item is null)
             {
@@ -153,7 +153,7 @@ namespace SLD.Serialization
             else throw new NotSupportedException($"Cannot serialize type '{item.GetType()}'");
         }
 
-        public static object DeserializeGeneric(BinaryReader reader)
+        public static object? DeserializeGeneric(BinaryReader reader)
         {
             var binaryType = reader.ReadBinaryType();
 
@@ -241,7 +241,7 @@ namespace SLD.Serialization
             }
         }
 
-        public static IEnumerable<T> DeserializeAll<T>(BinaryReader reader) where T : IBinarySerializable
+        public static IEnumerable<T?> DeserializeAll<T>(BinaryReader reader) where T : IBinarySerializable
         {
             var count = reader.ReadUInt32();
 
@@ -261,17 +261,17 @@ namespace SLD.Serialization
             }
         }
 
-        public static IEnumerable<T> DeserializeAllDerived<T>(BinaryReader reader) where T : IBinarySerializable
+        public static IEnumerable<T?> DeserializeAllDerived<T>(BinaryReader reader) where T : IBinarySerializable
         {
             var count = reader.ReadUInt32();
 
             for (int i = 0; i < count; i++)
             {
-                yield return (T)DeserializeDerived(reader);
+                yield return (T?)DeserializeDerived(reader);
             }
         }
 
-        public static void SerializeAllGeneric(IEnumerable<object> serializables, BinaryWriter writer)
+        public static void SerializeAllGeneric(IEnumerable<object?> serializables, BinaryWriter writer)
         {
             writer.Write((UInt32)(serializables.Count()));
 
@@ -281,7 +281,7 @@ namespace SLD.Serialization
             }
         }
 
-        public static IEnumerable<object> DeserializeAllGeneric(BinaryReader reader)
+        public static IEnumerable<object?> DeserializeAllGeneric(BinaryReader reader)
         {
             var count = reader.ReadUInt32();
 
@@ -332,6 +332,27 @@ namespace SLD.Serialization
         }
 
         #endregion Enumerable
+
+        #region Others
+
+        public static void Serialize(string? value, BinaryWriter writer)
+        {
+            if (value is null)
+            {
+                writer.Write((byte)0);
+            }
+            else
+            {
+                writer.Write((byte)1);
+
+                string nonnull = value!;
+
+                writer.Write(nonnull);
+            }
+        }
+
+
+        #endregion
 
         private static void SerializeNonNull(IBinarySerializable serializable, bool withTypeInfo, BinaryWriter writer)
         {

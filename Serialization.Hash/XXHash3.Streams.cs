@@ -45,7 +45,7 @@ namespace SLD.Serialization.XXHash3NET
             readonly int _stripesPerBlock;
             readonly byte[] _buffer;
             int _index;
-            ulong[] _acc;
+            ulong[] _acc = null!;
 
             ulong _length;
             int _blockCount;
