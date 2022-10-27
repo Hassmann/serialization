@@ -351,8 +351,21 @@ namespace SLD.Serialization
             }
         }
 
+        public static string? DeserializeNullableString(BinaryReader reader)
+        {
+            var isNull = reader.ReadByte() == 0;
 
-        #endregion
+            if (isNull)
+            {
+                return null;
+            }
+            else
+            {
+                return reader.ReadString();
+            }
+        }
+
+        #endregion Others
 
         private static void SerializeNonNull(IBinarySerializable serializable, bool withTypeInfo, BinaryWriter writer)
         {

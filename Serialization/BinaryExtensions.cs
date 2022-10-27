@@ -34,6 +34,11 @@ namespace SLD.Serialization
         public static IEnumerable<string> ReadStrings(this BinaryReader reader)
             => Binary.DeserializeAllStrings(reader);
 
+        public static string? ReadNullableString(this BinaryReader reader)
+            => Binary.DeserializeNullableString(reader);
+
+
+
         // Writer
         public static void Write(this BinaryWriter writer, IBinarySerializable? value, bool withTypeInfo = false)
             => Binary.Serialize(value, withTypeInfo, writer);
