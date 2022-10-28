@@ -216,13 +216,13 @@ namespace SLD.Serialization
 
         #region Custom
 
-        public static void SerializeCustom<T>(T serializable, BinaryWriter writer, Action<T, BinaryWriter> writeType) where T : IBinarySerializable
+        public static void SerializeCustom<T>(T? serializable, BinaryWriter writer, Action<T?, BinaryWriter> writeType) where T : IBinarySerializable
         {
             writeType(serializable, writer);
             serializable?.Serialize(writer);
         }
 
-        public static object DeserializeCustom(BinaryReader reader, Func<BinaryReader, object> deserialize)
+        public static object? DeserializeCustom(BinaryReader reader, Func<BinaryReader, object?> deserialize)
         {
             return deserialize(reader);
         }
@@ -291,7 +291,7 @@ namespace SLD.Serialization
             }
         }
 
-        public static void SerializeAllCustom<T>(IEnumerable<T> serializables, BinaryWriter writer, Action<T, BinaryWriter> writeType) where T : IBinarySerializable
+        public static void SerializeAllCustom<T>(IEnumerable<T?> serializables, BinaryWriter writer, Action<T?, BinaryWriter> writeType) where T : IBinarySerializable
         {
             writer.Write((UInt32)(serializables.Count()));
 
@@ -301,13 +301,13 @@ namespace SLD.Serialization
             }
         }
 
-        public static IEnumerable<T> DeserializeAllCustom<T>(BinaryReader reader, Func<BinaryReader, object> deserialize) where T : IBinarySerializable
+        public static IEnumerable<T?> DeserializeAllCustom<T>(BinaryReader reader, Func<BinaryReader, object?> deserialize) where T : IBinarySerializable
         {
             var count = reader.ReadUInt32();
 
             for (int i = 0; i < count; i++)
             {
-                yield return (T)DeserializeCustom(reader, deserialize);
+                yield return (T?)DeserializeCustom(reader, deserialize);
             }
         }
 

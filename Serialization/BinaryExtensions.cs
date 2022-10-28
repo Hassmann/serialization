@@ -46,7 +46,7 @@ namespace SLD.Serialization
         public static void WriteDerived(this BinaryWriter writer, IBinarySerializable? value)
             => Binary.Serialize(value, true, writer);
 
-        public static void WriteGeneric(this BinaryWriter writer, object value)
+        public static void WriteGeneric(this BinaryWriter writer, object? value)
             => Binary.SerializeGeneric(value, writer);
 
         public static void WriteCustom<T>(this BinaryWriter writer, T value, Action<T, BinaryWriter> writeType) where T : IBinarySerializable
