@@ -1,10 +1,10 @@
-﻿using SLD.Serialization.Binary;
-using System;
+﻿using System;
 using System.IO;
-using XXHash3NET;
 
 namespace SLD.Serialization
 {
+    using XXHash3NET;
+
     public struct Hash : IBinarySerializable
     {
         public const int BitLength = 64;
@@ -47,12 +47,7 @@ namespace SLD.Serialization
         {
             byte[] bytes = Convert.FromBase64String(serializedHash);
 
-            return new Hash(BitConverter.ToUInt64(bytes));
-        }
-
-        public static Hash Deserialize(BinaryReader reader)
-        {
-            return new Hash(reader);
+            return new Hash(BitConverter.ToUInt64(bytes, 0));
         }
 
         public void Serialize(BinaryWriter writer)

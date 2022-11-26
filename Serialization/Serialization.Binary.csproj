@@ -1,25 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	  <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>SLD.Serialization</RootNamespace>
-    <PackageId>SLD.Serialization.Binary</PackageId>
-    <Authors>Andreas Hassmann</Authors>
-    <Company>Schloss Lautereck Design</Company>
-    <Description>Simple serialization of object graphs</Description>
-    <PackageProjectUrl>https://github.com/Hassmann/serialization</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/Hassmann/serialization</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	  <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-	  <PackageIcon>SLD-Software-Nuget.png</PackageIcon>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<RootNamespace>SLD.Serialization</RootNamespace>
+		<PackageId>SLD.Serialization.Binary</PackageId>
+		<Authors>Andreas Hassmann</Authors>
+		<Company>Schloss Lautereck Design</Company>
+		<Description>Simple serialization of object graphs</Description>
+		<PackageProjectUrl>https://github.com/Hassmann/serialization</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Hassmann/serialization</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageIcon>SLD-Software-Nuget.png</PackageIcon>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Update="SLD-Software-Nuget.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="SLD-Software-Nuget.png">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace SLD.Serialization.Binary
+namespace SLD.Serialization
 {
     public interface IBinarySerializable
     {
