@@ -284,7 +284,7 @@ namespace Test
             Assert.True(strings.SequenceEqual(deserialized));
         }
 
-        private void CustomSerializeType(IBinarySerializable serializable, BinaryWriter writer)
+        private void CustomSerializeType(IBinarySerializable? serializable, BinaryWriter writer)
         {
             byte tag = serializable switch
             {
