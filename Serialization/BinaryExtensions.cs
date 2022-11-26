@@ -1,34 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace SLD.Serialization
 {
     public static class BinaryExtensions
     {
         // Reader
-        public static T? Read<T>(this BinaryReader reader) where T : IBinarySerializable
+        public static T? ReadNullable<T>(this BinaryReader reader) where T : IBinarySerializable
             => Binary.Deserialize<T>(reader);
+        public static T Read<T>(this BinaryReader reader) where T : IBinarySerializable
+            => Binary.Deserialize<T>(reader)!;
 
-        public static T? ReadDerived<T>(this BinaryReader reader) where T : IBinarySerializable
+        public static T ReadDerived<T>(this BinaryReader reader) where T : IBinarySerializable
+            => (T)Binary.DeserializeDerived(reader)!;
+
+        public static T? ReadDerivedNullable<T>(this BinaryReader reader) where T : IBinarySerializable
             => (T?)Binary.DeserializeDerived(reader);
 
-        public static object? ReadGeneric(this BinaryReader reader)
+        public static object ReadGeneric(this BinaryReader reader)
+            => Binary.DeserializeGeneric(reader)!;
+
+        public static object? ReadGenericNullable(this BinaryReader reader)
             => Binary.DeserializeGeneric(reader);
 
-        public static object? ReadCustom(this BinaryReader reader, Func<BinaryReader, object?> deserialize)
+        public static object ReadCustom(this BinaryReader reader, Func<BinaryReader, object> deserialize)
+            => Binary.DeserializeCustom(reader, deserialize)!;
+
+        public static object? ReadCustomNullable(this BinaryReader reader, Func<BinaryReader, object?> deserialize)
             => Binary.DeserializeCustom(reader, deserialize);
 
-        public static IEnumerable<T?> ReadAll<T>(this BinaryReader reader) where T : IBinarySerializable
+        public static IEnumerable<T> ReadAll<T>(this BinaryReader reader) where T : IBinarySerializable
+            => Binary.DeserializeAll<T>(reader).Cast<T>();
+
+        public static IEnumerable<T?> ReadAllNullable<T>(this BinaryReader reader) where T : IBinarySerializable
             => Binary.DeserializeAll<T>(reader);
 
-        public static IEnumerable<T?> ReadAllDerived<T>(this BinaryReader reader) where T : IBinarySerializable
+        public static IEnumerable<T> ReadAllDerived<T>(this BinaryReader reader) where T : IBinarySerializable
+            => Binary.DeserializeAllDerived<T>(reader).Cast<T>();
+
+        public static IEnumerable<T?> ReadAllNullableDerived<T>(this BinaryReader reader) where T : IBinarySerializable
             => Binary.DeserializeAllDerived<T>(reader);
 
-        public static IEnumerable<object?> ReadAllGeneric<T>(this BinaryReader reader)
+        public static IEnumerable<object> ReadAllGeneric(this BinaryReader reader)
+            => Binary.DeserializeAllGeneric(reader).Cast<object>();
+
+        public static IEnumerable<object?> ReadAllNullableGeneric(this BinaryReader reader)
             => Binary.DeserializeAllGeneric(reader);
 
-        public static IEnumerable<T?> ReadAllCustom<T>(this BinaryReader reader, Func<BinaryReader, object?> deserialize) where T : IBinarySerializable
+        public static IEnumerable<T> ReadAllCustom<T>(this BinaryReader reader, Func<BinaryReader, object> deserialize) where T : IBinarySerializable
+            => Binary.DeserializeAllCustom<T>(reader, deserialize).Cast<T>();
+
+        public static IEnumerable<T?> ReadAllNullableCustom<T>(this BinaryReader reader, Func<BinaryReader, object?> deserialize) where T : IBinarySerializable
             => Binary.DeserializeAllCustom<T>(reader, deserialize);
 
         public static IEnumerable<string> ReadStrings(this BinaryReader reader)
