@@ -73,7 +73,10 @@ namespace SLD.Serialization
         public static void WriteGeneric(this BinaryWriter writer, object? value)
             => Binary.SerializeGeneric(value, writer);
 
-        public static void WriteCustom<T>(this BinaryWriter writer, T? value, Action<T?, BinaryWriter> writeType) where T : IBinarySerializable
+        public static void WriteCustom<T>(this BinaryWriter writer, T value, Action<T, BinaryWriter> writeType) where T : IBinarySerializable
+            => Binary.SerializeCustom<T>(value, writer, (value, writer) => writeType(value!, writer));
+
+        public static void WriteCustomNullable<T>(this BinaryWriter writer, T? value, Action<T?, BinaryWriter> writeType) where T : IBinarySerializable
             => Binary.SerializeCustom<T>(value, writer, writeType);
 
         public static void WriteAll(this BinaryWriter writer, IEnumerable<IBinarySerializable> values, bool withTypeInfo = false)
@@ -85,7 +88,10 @@ namespace SLD.Serialization
         public static void WriteAllGeneric(this BinaryWriter writer, IEnumerable<IBinarySerializable> values)
             => Binary.SerializeAllGeneric(values, writer);
 
-        public static void WriteAllCustom<T>(this BinaryWriter writer, IEnumerable<T?> values, Action<T?, BinaryWriter> writeType) where T : IBinarySerializable
+        public static void WriteAllCustom<T>(this BinaryWriter writer, IEnumerable<T> values, Action<T, BinaryWriter> writeType) where T : IBinarySerializable
+            => Binary.SerializeAllCustom<T>(values, writer, (value, writer) => writeType(value!, writer));
+
+        public static void WriteAllCustomNullable<T>(this BinaryWriter writer, IEnumerable<T?> values, Action<T?, BinaryWriter> writeType) where T : IBinarySerializable
             => Binary.SerializeAllCustom<T>(values, writer, writeType);
 
         public static void Write(this BinaryWriter writer, IEnumerable<string> values)
