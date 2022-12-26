@@ -10,9 +10,9 @@ namespace SLD.Serialization
 
         private readonly Stream _destination;
 
-        public HashingStream(Stream destination)
+        public HashingStream(Stream? destination = null)
         {
-            _destination = destination;
+            _destination = destination ?? Null;
         }
 
         public Hash Hash { get; private set; }
