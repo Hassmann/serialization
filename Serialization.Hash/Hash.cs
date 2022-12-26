@@ -3,6 +3,7 @@ using System.IO;
 
 namespace SLD.Serialization
 {
+    using System.Text;
     using XXHash3NET;
 
     public struct Hash : IBinarySerializable
