@@ -21,7 +21,12 @@ SLD namespacing fork of XXHash3.NET by Crauzer, adding streams
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="XXHash3.Streams.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="System.Memory" Version="4.5.4" />
+		<PackageReference Include="XXHash3.NET" Version="2.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -29,7 +34,8 @@ SLD namespacing fork of XXHash3.NET by Crauzer, adding streams
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="SLD-Software-Nuget.png" PackagePath="" Pack="true"/>
+		<None Include="SLD-Software-Nuget.png" PackagePath="" Pack="true" />
+		<None Include="XXHash3.Streams.cs" />
 	</ItemGroup>
 
 </Project>

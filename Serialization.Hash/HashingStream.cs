@@ -1,12 +1,12 @@
-﻿using SLD.Serialization.XXHash3NET;
-using System;
+﻿using System;
 using System.IO;
+using XXHash3NET;
 
 namespace SLD.Serialization
 {
     public class HashingStream : Stream
     {
-        readonly XXHash3.ContinousHash _hash = new();
+        readonly XXHash3 _hash = XXHash3.Create();
 
         private readonly Stream _destination;
 
@@ -57,12 +57,12 @@ namespace SLD.Serialization
         {
             _destination.Write(buffer, offset, count);
 
-            _hash.Add(new ReadOnlyMemory<byte>(buffer, offset, count));
+            _hash.Update(new ReadOnlySpan<byte>(buffer, offset, count));
         }
 
         protected override void Dispose(bool disposing)
         {
-            Hash = new Hash(_hash.Finalize());
+            Hash = new Hash(_hash.Digest64());
 
             base.Dispose(disposing);
         }
