@@ -1,7 +1,5 @@
 ﻿using SLD.Serialization;
 using System.Drawing.Imaging;
-using System.Text;
-using Windows.Foundation.Metadata;
 
 namespace Test
 {
