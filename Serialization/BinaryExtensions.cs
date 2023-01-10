@@ -79,11 +79,11 @@ namespace SLD.Serialization
         public static void WriteCustomNullable<T>(this BinaryWriter writer, T? value, Action<T?, BinaryWriter> writeType) where T : IBinarySerializable
             => Binary.SerializeCustom<T>(value, writer, writeType);
 
-        public static void WriteAll(this BinaryWriter writer, IEnumerable<IBinarySerializable> values, bool withTypeInfo = false)
-            => Binary.SerializeAll(values, writer, withTypeInfo);
+        public static void WriteAll<T>(this BinaryWriter writer, IEnumerable<T> values, bool withTypeInfo = false) where T : IBinarySerializable
+            => Binary.SerializeAll(values.Cast<IBinarySerializable>(), writer, withTypeInfo);
 
-        public static void WriteAllDerived(this BinaryWriter writer, IEnumerable<IBinarySerializable> values)
-            => Binary.SerializeAll(values, writer, true);
+        public static void WriteAllDerived<T>(this BinaryWriter writer, IEnumerable<T> values) where T : IBinarySerializable
+            => Binary.SerializeAll(values.Cast<IBinarySerializable>(), writer, true);
 
         public static void WriteAllGeneric(this BinaryWriter writer, IEnumerable<IBinarySerializable> values)
             => Binary.SerializeAllGeneric(values, writer);
