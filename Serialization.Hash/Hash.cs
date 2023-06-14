@@ -11,6 +11,8 @@ namespace SLD.Serialization
         public const int Size = BitLength / 8;
         private readonly ulong _value;
 
+        public static Hash Empty = From(new byte[0]);
+
         public Hash(ulong value)
         {
             _value = value;
@@ -33,15 +35,6 @@ namespace SLD.Serialization
 
             return new Hash(xx);
         }
-
-        //public static Hash From(Stream input)
-        //{
-        //	var xx = XXHash64.Create();
-
-        //	byte[] bytes = xx.ComputeHash(input);
-
-        //	return new Hash(bytes);
-        //}
 
         public static Hash Deserialize(string serializedHash)
         {
