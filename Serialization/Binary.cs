@@ -4,12 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Threading;
 
 namespace SLD.Serialization
 {
     public static class Binary
     {
-        private static readonly Dictionary<string, Func<BinaryReader, object>> _knownConstructors = new Dictionary<string, Func<BinaryReader, object>>();
+        private static ReaderWriterLockSlim _syncConstructors = new();
+
+        private static readonly Dictionary<string, Func<BinaryReader, object>> _knownConstructors = new();
 
         #region Serializable
 
@@ -390,25 +393,42 @@ namespace SLD.Serialization
 
         private static Func<BinaryReader, object> FindConstructor(string typeName)
         {
-            if (_knownConstructors.TryGetValue(typeName, out var found))
+            _syncConstructors.EnterUpgradeableReadLock();
+
+            try
             {
-                return found;
+                if (_knownConstructors.TryGetValue(typeName, out var found))
+                {
+                    return found;
+                }
+
+                Type type = FindType(typeName, Assembly.GetCallingAssembly());
+
+                var constructor = type.GetConstructor(new Type[] { typeof(BinaryReader) });
+
+                if (constructor == null)
+                {
+                    throw new SerializationException($"Type '{type.FullName}' has no public constructor {type.Name}(BinaryReader)");
+                }
+
+                Func<BinaryReader, object> call = reader => constructor.Invoke(new object[] { reader });
+
+                _syncConstructors.EnterWriteLock();
+                try
+                {
+                    _knownConstructors[typeName] = call;
+                }
+                finally
+                {
+                    _syncConstructors.ExitWriteLock();
+                }
+
+                return call;
             }
-
-            Type type = FindType(typeName, Assembly.GetCallingAssembly());
-
-            var constructor = type.GetConstructor(new Type[] { typeof(BinaryReader) });
-
-            if (constructor == null)
+            finally
             {
-                throw new SerializationException($"Type '{type.FullName}' has no public constructor {type.Name}(BinaryReader)");
+                _syncConstructors.ExitUpgradeableReadLock();
             }
-
-            Func<BinaryReader, object> call = reader => constructor.Invoke(new object[] { reader });
-
-            _knownConstructors[typeName] = call;
-
-            return call;
         }
 
         private static Type FindType(string typeName, Assembly callingAssembly)
