@@ -28,7 +28,7 @@ namespace Serialization
         public static object? DeserializeYaml(this string input, Type type, params Action<DeserializerBuilder>[] extenders)
         {
             DeserializerBuilder builder = new DeserializerBuilder()
-                .WithTypeConverter(new DateTimeConverter(DateTimeKind.Utc, CultureInfo.InvariantCulture, "O"))
+                .WithTypeConverter(new DateTimeConverter(DateTimeKind.Utc, CultureInfo.InvariantCulture, false, "O"))
                 .IgnoreUnmatchedProperties();
 
             foreach (Action<DeserializerBuilder> extender in extenders)
@@ -45,7 +45,7 @@ namespace Serialization
         {
             SerializerBuilder builder = new SerializerBuilder()
                     .ConfigureDefaultValuesHandling(DefaultValuesHandling.OmitNull)
-                    .WithTypeConverter(new DateTimeConverter(DateTimeKind.Utc, CultureInfo.InvariantCulture, "O"))
+                    .WithTypeConverter(new DateTimeConverter(DateTimeKind.Utc, CultureInfo.InvariantCulture, false, "O"))
                 ;
 
             foreach (Action<SerializerBuilder> extender in extenders)
