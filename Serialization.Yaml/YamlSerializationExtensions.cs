@@ -20,12 +20,12 @@ namespace Serialization
             return value;
         }
 
-        public static T DeserializeYaml<T>(this string input, params Action<DeserializerBuilder>[] extenders)
+        public static T? DeserializeYaml<T>(this string input, params Action<DeserializerBuilder>[] extenders)
         {
-            return (T)DeserializeYaml(input, typeof(T), extenders);
+            return (T?)DeserializeYaml(input, typeof(T), extenders);
         }
 
-        public static object DeserializeYaml(this string input, Type type, params Action<DeserializerBuilder>[] extenders)
+        public static object? DeserializeYaml(this string input, Type type, params Action<DeserializerBuilder>[] extenders)
         {
             DeserializerBuilder builder = new DeserializerBuilder()
                 .WithTypeConverter(new DateTimeConverter(DateTimeKind.Utc, CultureInfo.InvariantCulture, "O"))

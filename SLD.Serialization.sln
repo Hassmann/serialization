@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serialization.Compression", "Serialization.Compression\Serialization.Compression.csproj", "{5412DD78-42C8-4DD1-B30D-EC1790D1420C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_Serialization_.Yaml", "Serialization.Yaml\_Serialization_.Yaml.csproj", "{A9C9E2E2-5B08-44A8-B9AB-32E4A2981776}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serialization.Yaml", "Serialization.Yaml\Serialization.Yaml.csproj", "{A9C9E2E2-5B08-44A8-B9AB-32E4A2981776}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
