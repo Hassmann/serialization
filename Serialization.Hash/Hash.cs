@@ -49,5 +49,7 @@ public struct Hash : IBinarySerializable
     }
 
     public override string ToString()
-        => Convert.ToBase64String(Bytes, Base64FormattingOptions.None);
+        => Convert.ToBase64String(Bytes, Base64FormattingOptions.None)
+		.Replace("+", "-")
+		.Replace("/", "_");
 }
