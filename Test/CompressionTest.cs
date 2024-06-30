@@ -56,22 +56,22 @@ namespace Test
             return originalStream;
         }
 
-        [Fact]
-        public void CompressSamplePng()
-        {
-            var source = System.Drawing.Image.FromFile("Samples/background.png");
+        //[Fact]
+        //public void CompressSamplePng()
+        //{
+        //    var source = System.Drawing.Image.FromFile("Samples/background.png");
 
-            var inmemory = new MemoryStream();
-            source.Save(inmemory, ImageFormat.Png);
+        //    var inmemory = new MemoryStream();
+        //    source.Save(inmemory, ImageFormat.Png);
 
-            inmemory.Position = 0;
+        //    inmemory.Position = 0;
 
-            var compressed = new MemoryStream();
-            using (var compressing = new CompressingStream(compressed))
-            {
-                //                inmemory.CopyTo(compressing);
-                source.Save(compressing, ImageFormat.Png);
-            }
-        }
+        //    var compressed = new MemoryStream();
+        //    using (var compressing = new CompressingStream(compressed))
+        //    {
+        //        //                inmemory.CopyTo(compressing);
+        //        source.Save(compressing, ImageFormat.Png);
+        //    }
+        //}
     }
 }

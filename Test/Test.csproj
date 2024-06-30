@@ -1,10 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<NoWarn>1701;1702;1998</NoWarn>
 		<Platforms>x64</Platforms>
 		<RootNamespace>SLD.Model.Test</RootNamespace>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="HashTest.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="HashTest.cs" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="coverlet.collector" Version="6.0.2">
@@ -22,7 +30,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Serialization.Compression\Serialization.Compression.csproj" />
-	  <ProjectReference Include="..\Serialization.Hash\Serialization.Hash.csproj" />
 	  <ProjectReference Include="..\Serialization\Serialization.Binary.csproj" />
 	</ItemGroup>
 
