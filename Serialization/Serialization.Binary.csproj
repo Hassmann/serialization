@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
@@ -13,6 +13,7 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
 		<PackageIcon>SLD-Software-Nuget.png</PackageIcon>
+		<Platforms>x64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
