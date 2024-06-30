@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0</TargetFrameworks>
 		<RootNamespace>SLD.Serialization</RootNamespace>
 		<PackageId>SLD.Serialization.Hash</PackageId>
 		<Authors>Crauzer, Andreas Hassmann</Authors>
