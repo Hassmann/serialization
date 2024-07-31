@@ -11,7 +11,7 @@ public struct Hash : IBinarySerializable
     public const int Size = BitLength / 8;
     private readonly ulong _value;
 
-    public static Hash Empty = From(new byte[0]);
+    public static Hash Empty = From([]);
 
     public Hash(ulong value)
     {
@@ -23,10 +23,10 @@ public struct Hash : IBinarySerializable
         _value = reader.ReadUInt64();
     }
 
-    public ulong Value64
+    public readonly ulong Value64
         => _value;
 
-    public byte[] Bytes
+    public readonly byte[] Bytes
         => BitConverter.GetBytes(_value);
 
     public static Hash From(ReadOnlySpan<byte> data)
@@ -36,14 +36,33 @@ public struct Hash : IBinarySerializable
         return new Hash(xx);
     }
 
-    public static Hash Deserialize(string serializedHash)
-    {
-        byte[] bytes = Convert.FromBase64String(serializedHash);
+	public static Hash Deserialize(string serializedHash)
+	{
+		byte[] bytes = Convert.FromBase64String(serializedHash);
 
-        return new Hash(BitConverter.ToUInt64(bytes, 0));
-    }
+		return new Hash(BitConverter.ToUInt64(bytes, 0));
+	}
 
-    public void Serialize(BinaryWriter writer)
+	public static Hash Parse(string text)
+	{
+        byte[] bytes;
+
+		try
+        {
+            bytes = Convert.FromBase64String(text);
+        }
+        catch (Exception)
+        {
+			bytes = Convert.FromBase64String(text
+		        .Replace("-", "+")
+		        .Replace("_", "/")
+                );
+		}
+
+		return new Hash(BitConverter.ToUInt64(bytes, 0));
+	}
+
+	public void Serialize(BinaryWriter writer)
     {
         writer.Write(Value64);
     }
