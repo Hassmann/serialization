@@ -48,8 +48,11 @@ public struct Hash : IBinarySerializable
         writer.Write(Value64);
     }
 
-    public override string ToString()
-        => Convert.ToBase64String(Bytes, Base64FormattingOptions.None)
+    public string ToRoundtripString()
+        => Convert.ToBase64String(Bytes, Base64FormattingOptions.None);
+
+	public override string ToString()
+        => ToRoundtripString()
 		.Replace("+", "-")
 		.Replace("/", "_");
 }
