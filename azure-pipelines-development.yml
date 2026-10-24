@@ -1,5 +1,6 @@
 trigger:
 - development
+- main
 
 resources:
   repositories:
@@ -13,7 +14,15 @@ stages:
     - template: BuildLibrary.yml@templates
       parameters:
         packagesToPack: '**/Serialization.*.csproj'
-        
+        versionValue: $(ProductVersion)
+        buildConfiguration: 'Release'
+
   - stage: Publish
     jobs:
     - template: PublishToArtifacts.yml@templates
+
+  - stage: PublishToNuget
+    displayName: Publish to nuget.org
+    condition: eq(variables['build.sourceBranch'], 'refs/heads/main')
+    jobs:
+    - template: PublishToNuget.yml@templates

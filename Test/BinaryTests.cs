@@ -269,7 +269,7 @@ namespace Test
         [Fact]
         public void Strings()
         {
-            var strings = new []
+            var strings = new[]
             {
                 "1",
                 "2",
